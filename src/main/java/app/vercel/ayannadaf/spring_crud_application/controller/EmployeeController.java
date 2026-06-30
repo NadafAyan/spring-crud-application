@@ -2,24 +2,50 @@ package app.vercel.ayannadaf.spring_crud_application.controller;
 
 import app.vercel.ayannadaf.spring_crud_application.entity.Employee;
 import app.vercel.ayannadaf.spring_crud_application.service.EmployeeService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.xml.stream.events.EntityReference;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
 
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
     @PostMapping
-    public String createEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
         Employee createdEmployee = employeeService.createEmployee(employee);
-        return "Student created";
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployee);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Employee> getEmployee(@PathVariable Long id) {
+        Employee employeeResp = employeeService.getEmployee(id);
+
+        if(employeeResp == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(employeeResp);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Employee>> getAllEmployees() {
+        List<Employee> employeesList = employeeService.getAllEmployees();
+
+        if(employeesList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(employeesList);
     }
 }
