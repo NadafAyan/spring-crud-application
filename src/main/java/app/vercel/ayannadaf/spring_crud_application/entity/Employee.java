@@ -1,16 +1,30 @@
 package app.vercel.ayannadaf.spring_crud_application.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Employee {
-    private int id;
+
+    @Id
+    private Long id;
     private String name;
     private int age;
     private String designation;
 
-    public int getId() {
+    /* CREATE DATABASE company;
+    * USE employee;
+    * CREATE TABLE employee(
+    * id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    * name VARCHAR(255),
+    * age INT NOT NULL,
+    * designation VARCHAR(255) NOT NULL); */
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
