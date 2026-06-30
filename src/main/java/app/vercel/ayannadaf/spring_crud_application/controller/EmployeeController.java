@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/api/employees/")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -27,7 +27,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployee);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Employee> getEmployee(@PathVariable Long id) {
         Employee employeeResp = employeeService.getEmployee(id);
 
@@ -49,7 +49,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(employeesList);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeReq) {
         Employee savedEmployee = employeeService.updateEmployee(id, employeeReq);
 
@@ -59,7 +59,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(savedEmployee);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Employee> deleteEmployee(@PathVariable Long id) {
         Employee deletedEmployee = employeeService.deleteEmployee(id);
 
