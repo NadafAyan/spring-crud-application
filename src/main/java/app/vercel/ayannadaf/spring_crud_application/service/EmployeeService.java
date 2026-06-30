@@ -24,8 +24,8 @@ public class EmployeeService {
     public Employee getEmployee(Long id) {
         Optional<Employee> employeeResp = employeeRepository.findById(id);
 
-        if(employeeResp.isPresent()) {
-        return employeeResp.get();
+        if (employeeResp.isPresent()) {
+            return employeeResp.get();
         }
 
         return null;
@@ -35,4 +35,35 @@ public class EmployeeService {
         List<Employee> employeesList = employeeRepository.findAll();
         return employeesList;
     }
+
+    public Employee updateEmployee(Long id, Employee employeeReq) {
+        Optional<Employee> existingEmployee = employeeRepository.findById(id);
+
+        if (existingEmployee.isEmpty()) {
+            return null;
+        }
+
+        Employee employeeToSave = existingEmployee.get();
+
+        employeeToSave.setId(employeeReq.getId());
+        employeeToSave.setName(employeeReq.getName());
+        employeeToSave.setAge(employeeReq.getAge());
+        employeeToSave.setDesignation(employeeReq.getDesignation());
+
+        Employee updatedEmployee = employeeRepository.save(employeeToSave);
+
+        return updatedEmployee;
+    }
+
+    public Employee deleteEmployee(Long id) {
+        Optional<Employee> employeeExists = employeeRepository.findById(id);
+
+        if(employeeExists.isEmpty()) {
+            return null;
+        }
+
+        employeeRepository.deleteById(id);
+        return employeeExists.get();
+    }
+
 }
